@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,9 +26,9 @@ import org.robotframework.remoteserver.context.Context;
 
 /**
  * Contains the XML-RPC methods that implement the remote library interface.
- * 
+ *
  * @author David Luu
- * 
+ *
  */
 public class ServerMethods {
 
@@ -37,6 +37,8 @@ public class ServerMethods {
     private static String[] ignoredExceptions = new String[] { "AssertionError", "AssertionFailedError", "Exception",
 	    "Error", "RuntimeError", "RuntimeException", "DataError", "TimeoutError", "RemoteError" };
 
+    private static Boolean STD_REDIRECT = Boolean.valueOf(System.getProperty("org.robotframework.remoteserver.stdredirect", "true"));
+
     public ServerMethods(Context context) {
 	log = LogFactory.getLog(ServerMethods.class);
 	this.context = context;
@@ -44,7 +46,7 @@ public class ServerMethods {
 
     /**
      * Get an array containing the names of the keywords that the library implements.
-     * 
+     *
      * @return String array containing keyword names in the library
      */
     public String[] get_keyword_names() {
@@ -63,7 +65,7 @@ public class ServerMethods {
 
     /**
      * Run the given keyword and return the results.
-     * 
+     *
      * @param keyword
      *            keyword to run
      * @param args
@@ -73,7 +75,9 @@ public class ServerMethods {
     public Map<String, Object> run_keyword(String keyword, Object[] args) {
 	HashMap<String, Object> kr = new HashMap<String, Object>();
 	StdStreamRedirecter redirector = new StdStreamRedirecter();
-	redirector.redirectStdStreams();
+	if(STD_REDIRECT) {
+		redirector.redirectStdStreams();
+	}
 	try {
 	    kr.put("status", "PASS");
 	    kr.put("error", "");
@@ -102,15 +106,20 @@ public class ServerMethods {
 	    kr.put("error", getError(t));
 	    kr.put("traceback", ExceptionUtils.getStackTrace(t));
 	} finally {
-	    kr.put("output", redirector.getStdOutAsString() + "\n" + redirector.getStdErrAsString());
-	    redirector.resetStdStreams();
+		if(STD_REDIRECT) {
+			kr.put("output", redirector.getStdOutAsString() + "\n" + redirector.getStdErrAsString());
+			redirector.resetStdStreams();
+		}
+		else {
+			kr.put("output", "");
+		}
 	}
 	return kr;
     }
 
     /**
      * Get an array of argument descriptors for the given keyword.
-     * 
+     *
      * @param keyword
      *            The keyword to lookup.
      * @return A string array of argument descriptors for the given keyword.
@@ -130,7 +139,7 @@ public class ServerMethods {
 
     /**
      * Get documentation for given keyword.
-     * 
+     *
      * @param keyword
      *            The keyword to get documentation for.
      * @return A documentation string for the given keyword.
@@ -150,7 +159,7 @@ public class ServerMethods {
 
     /**
      * Stops the remote server if it is configured to allow that.
-     * 
+     *
      * @return remote result Map containing the execution results
      */
     public Map<String, Object> stop_remote_server() {
