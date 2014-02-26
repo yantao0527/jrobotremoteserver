@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.ombre42</groupId>
+	<groupId>com.github.yantao0527</groupId>
 	<artifactId>jrobotremoteserver</artifactId>
-	<version>2.0</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>jrobotremoteserver</name>
-	<url>https://github.com/ombre42/jrobotremoteserver</url>
+	<url>https://github.com/yantao0527/jrobotremoteserver</url>
 	<licenses>
 		<license>
 			<name>Apache 2</name>
@@ -115,8 +115,8 @@
 	</build>
 	<description>Serves remote test libraries for Robot Framework that are implemented in Java.</description>
 	<scm>
-		<connection>scm:git:git@github.com:ombre42/jrobotremoteserver.git</connection>
-		<developerConnection>scm:git:git@github.com:ombre42/jrobotremoteserver.git</developerConnection>
-		<url>git@github.com:ombre42/jrobotremoteserver.git</url>
+		<connection>scm:git:git@github.com:yantao0527/jrobotremoteserver.git</connection>
+		<developerConnection>scm:git:git@github.com:yantao0527/jrobotremoteserver.git</developerConnection>
+		<url>git@github.com:yantao0527/jrobotremoteserver.git</url>
 	</scm>
 </project>
